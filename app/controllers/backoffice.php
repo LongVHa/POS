@@ -47,8 +47,7 @@ class Backoffice extends Controller
                 $updateStatus = $fetchMenu->fetchById($id);
                 
             }
-            
-            
+    
         }
         
         //DELETE an item
@@ -99,6 +98,7 @@ class Backoffice extends Controller
              if(!empty($addStatus)){ 
                  
                  $addNewStatus['errMsg'] = $addStatus; //send error msg
+                 exit();
        
              }else{    
              //add to DB and get last inserted

@@ -1,27 +1,10 @@
 <?php
 
-class Menu{
-    
-    //connect to DB
-    protected function DBconn()
-    {
+include_once('dbh.php');
 
-        $dbHost = 'localhost';
-        $dbUsername = 'root';
-        $dbPassword = '';
-        $dbName = 'pos';
-
-        //set DSN
-        $dsn = 'mysql:host=' . $dbHost . ';dbname=' . $dbName;
-
-        //create PDO instance
-        $pdo = new PDO($dsn, $dbUsername, $dbPassword);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-        
-        return $pdo;
-    }
+class Menu extends DBH{
     
-    
+
     //Fetch from DB proccess 
     public function fetchFromDB($sql)
     {
@@ -33,7 +16,6 @@ class Menu{
         $results = $stmt->fetchAll();
         
         return $results;
-
     }
     
     //fetch all menu items
@@ -77,8 +59,7 @@ class Menu{
            return array_unique($sectionArr, SORT_REGULAR);
             
         } catch (Exception $ex) {
-            throw new $ex;
-           
+            throw new $ex;          
         }
     }
 
@@ -112,10 +93,8 @@ class Menu{
             }
    
         }catch(Exception $ex){
-            throw new $ex;
-            
-        }
-              
+            throw new $ex;           
+        }         
     }    
     
     public function update($id, $section, $number, $description, $pmedium, $plarge)
@@ -140,8 +119,7 @@ class Menu{
             
         }catch(Exception $ex){
             throw new $ex('Cannot update item!');
-        }
-        
+        }  
     }
     
     public function deleteItem($id){
@@ -167,15 +145,12 @@ class Menu{
                 $delStmt = $pdo->prepare($sqlDel);
                  $delStmt->execute(); 
                 
-                return $resultMsg[0];
-               
+                return $resultMsg[0];    
             }
         
         }catch(Exception $ex){
             throw new $ex;
-            
-        }        
-        
+        }             
     }
     
     //get single item details by id
@@ -194,8 +169,7 @@ class Menu{
             
         }catch(Exception $ex){
             throw new $ex;
-        }
-        
+        }   
     }
    
     //fetch previous inserted item
@@ -212,12 +186,11 @@ class Menu{
             return $results;
 
         }catch(Exception $ex){
-
-           throw new $ex('Cannot fetch from DB');
-           
+           throw new $ex('Cannot fetch from DB');         
         }
 
     }
+    
     
 }
 

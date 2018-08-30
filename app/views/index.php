@@ -1,8 +1,10 @@
-<?php include_once 'header.php'; ?>
+<?php 
 
-<div class="page-title">
-    <h2>Home</h2>
-</div>
+include_once 'header.php'; 
+
+?>
+
+<h2>Home</h2>
 
 
 <?php include_once 'footer.php'; ?>
