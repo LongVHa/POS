@@ -1,24 +1,38 @@
 <?php
 
 class DBH{
+    
+     private static $dbHost = 'localhost';
+     private static $dbUsername = 'root';
+     private static $dbPassword = '';
+     private static $dbName = 'pos';
+    
     //connect to DB
-    protected function DBconn()
+    private function _DBconn()
     {
-
-        $dbHost = 'localhost';
-        $dbUsername = 'root';
-        $dbPassword = '';
-        $dbName = 'pos';
-
         //set DSN
-        $dsn = 'mysql:host=' . $dbHost . ';dbname=' . $dbName;
+        $dsn = 'mysql:host=' . self::$dbHost . ';dbname=' . self::$dbName;
 
         //create PDO instance
-        $pdo = new PDO($dsn, $dbUsername, $dbPassword);
+        $pdo = new PDO($dsn, self::$dbUsername, self::$dbPassword);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         
         return $pdo;
     }
 
+    
+    public function getConn()
+    {
+        
+        try{
+            $result = $this->_DBconn();
+            return $result;
+            
+        }catch(Exception $ex){
+            
+             throw new $ex;
+        }
+        
+    }
     
 }
