@@ -1,35 +1,24 @@
 <?php
 
-include_once('dbh.php');
+$this->model('pdoRun');
 
-class Menu extends DBH{
+class Menu{
     
-
-    //Fetch from DB proccess 
-    public function fetchFromDB($sql)
-    {
-        
-        $pdo = $this->DBconn();
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $results = $stmt->fetchAll();
-        
-        return $results;
+    private $pdoRun;
+    
+    public function __construct(){
+        $this->pdoRun = new PdoRun();
     }
-    
+  
     //fetch all menu items
     public function fetchMenuItems()
     {
         
         $sql = 'SELECT * FROM menu';
-        
-        $results = $this->fetchFromDB($sql);
-        
+      
         try{
-          $menuItems = $results;  
-          
-          return $menuItems;
+          $result = $this->pdoRun->pdoSql($sql, 'pdoFetch', 0);
+          return $result;
 
         } catch (Exception $ex) {
             throw new $ex('cannot load menu items');
@@ -43,15 +32,14 @@ class Menu extends DBH{
 
         $sql = 'SELECT section FROM menu';
         
-        $results = $this->fetchFromDB($sql);
+        $result = $this->pdoRun->pdoSql($sql, 'pdoFetch', 0);
         
         $sectionArr = [];
         
         try{
-            $section = $results;      
             
-            //put values into array
-            foreach( $section as $key => $value){
+            //push values into array
+            foreach( $result as $key => $value){
               $sectionArr[] = trim($value[0],' ');
             }
            
@@ -63,29 +51,27 @@ class Menu extends DBH{
         }
     }
 
-
     //add new
     public function addNew($section, $number, $description, $pmedium, $plarge)
     {
-
-        $sql = "INSERT INTO menu(section, number, description, pmedium, plarge) VALUES(:section, :number, :description, :pmedium, :plarge)";
-        $data = [
+        
+        $sqlData = [
             'section'=>$section,
             'number'=>$number,
             'description'=>$description,
             'pmedium'=>$pmedium,
             'plarge'=>$plarge       
         ];
-                
+        
+        $sql = "INSERT INTO menu(section, number, description, pmedium, plarge) VALUES(:section, :number, :description, :pmedium, :plarge)";  
+        
         try{
+            //insert new item
+            $result = $this->pdoRun->pdoSql($sql, 'pdoModify', $sqlData);
+            print_r($result);
             
-            $pdo = $this->DBconn();
-
-            $stmt = $pdo->prepare($sql);
-            $hasInserted = $stmt->execute($data);
-
-            //if item has been added, fetch the new or last, insert
-            if($hasInserted){
+            //fetch inserted
+            if($result){
                 
                $fetchByNum = $this->fetchByNum($number); 
                return $fetchByNum;
@@ -93,15 +79,18 @@ class Menu extends DBH{
             }
    
         }catch(Exception $ex){
-            throw new $ex;           
+            
+            throw new $ex;     
+            
         }         
     }    
     
+    //update items
     public function update($id, $section, $number, $description, $pmedium, $plarge)
     {
         
         $sql = 'UPDATE menu SET section=:section, number=:number, description=:description, pmedium=:pmedium, plarge=:plarge WHERE id=:id'; 
-        $data = [
+        $sqlUpdate = [
             'section' => $section,
             'number' => $number,
             'description' => $description,
@@ -111,40 +100,40 @@ class Menu extends DBH{
         ];
         
         try{
-            $pdo = $this->DBconn();
-            $stmt = $pdo->prepare($sql);
-            $result = $stmt->execute($data);
-            
-            return $result;
+             
+           $result  = $this->pdoRun->pdoSql($sql, 'pdoModify', $sqlUpdate);
+           return $result;
             
         }catch(Exception $ex){
             throw new $ex('Cannot update item!');
         }  
     }
     
-    public function deleteItem($id){
+    
+    //delete items
+    public function deleteItem($id)
+    {
         
+        $sql = "SELECT * FROM menu WHERE id=" .$id;
         $sqlDel = "DELETE FROM menu WHERE id=" .$id;
-        $sqlCheck = "SELECT * FROM menu WHERE id=" .$id;
         
         $resultMsg = [];
       
         try{
-            //check if id exist before delete
-            $pdo = $this->DBconn();           
-            $stmt = $pdo->prepare($sqlCheck);  
-            $checkResult = $stmt->execute();
-             
+            
+            //check if id exist before delete          
+            $result = $this->pdoRun->pdoSql($sql, 'pdoFetch', 0);
+                  
             //delete if exists
-            if($checkResult = 1){
+            if($result = 1){
                 
-                //get single details to return before deteting
+                //get single item details to return before deleting
                 $resultMsg[] = $this->fetchById($id);
-                
+
                 //delete
-                $delStmt = $pdo->prepare($sqlDel);
-                 $delStmt->execute(); 
-                
+                $this->pdoRun->pdoSql($sqlDel, 'pdoModify', [$id]);
+    
+                //output deleted item
                 return $resultMsg[0];    
             }
         
@@ -157,14 +146,11 @@ class Menu extends DBH{
     public function fetchById($id)
     {
         
-        $sql = "SELECT * FROM menu WHERE id=" . $id;
+        $sql = 'SELECT * FROM menu WHERE id=' . $id;
         
         try{
         
-            $pdo = $this->DBconn();
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $result = $stmt->fetchAll();
+            $result = $this->pdoRun->pdoSql($sql, 'pdoFetch', 0);  
             return $result;
             
         }catch(Exception $ex){
@@ -173,20 +159,17 @@ class Menu extends DBH{
     }
    
     //fetch previous inserted item
-    public function fetchByNum($number)
+    public function fetchByNum($itemNum)
     {
-        $sql = 'SELECT * FROM menu WHERE number='.$number;
+        $sql = 'SELECT * FROM menu WHERE number='. $itemNum;
 
         try{
-            $pdo = $this->DBconn();
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $results = $stmt->fetchAll();
-            
-            return $results;
+ 
+             $result = $this->pdoRun->pdoSql($sql, 'pdoFetch', 0);
+             return $result;
 
         }catch(Exception $ex){
-           throw new $ex('Cannot fetch from DB');         
+             throw new $ex('Cannot fetch from DB');         
         }
 
     }

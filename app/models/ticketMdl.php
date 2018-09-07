@@ -2,8 +2,14 @@
 
 $this->model('dbh');
 
-class TicketMdl extends DBH{
+class TicketMdl{
     
+    private $pdo;
+    
+    public function __construct(){
+           $dbh = new DBH();
+           $this->pdo = $dbh->getConn();
+    }
     
     //fetch Item by section  
     public function fetchBySection($section)
@@ -11,15 +17,13 @@ class TicketMdl extends DBH{
         $sql = 'SELECT * FROM menu WHERE section="'.$section.'"';
         
         try{
-            
-            $pdo = $this->DBconn();
-            $stmt = $pdo->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
  
             return $result;
             
-        }catch(Exception $ex){
+        }catch(PDOException $ex){
               throw new $ex;
              
         }
