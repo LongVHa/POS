@@ -1,9 +1,5 @@
 <?php include_once 'header.php'; ?>
 
-TICKET TO DO:
-<p> - Get items from DB</p>
-
-
 
 <h2>Ticket</h2>
 

@@ -6,7 +6,7 @@
     <h3>To do List:</h3>
     
     <p>- Price medium and price large needs re-validating</p>
-    <p>- Delete confirmation</p>
+
    
   
 </div>
