@@ -6,7 +6,7 @@ class Backoffice extends Controller
     public function index()
    {    
         //fetch model
-        $fetchMenu = $this->model('menu');
+        $menu = $this->model('menu');
         
         //returned value of add/delete function
         $addStatus = [];
@@ -40,11 +40,11 @@ class Backoffice extends Controller
             $pmedium = trim($update["'pmedium'"],' ');
             $plarge = trim($update["'plarge'"],' ');
 
-            $result = $fetchMenu->update($id, $section, $number, $desc, $pmedium, $plarge);
+            $result = $menu->update($id, $section, $number, $desc, $pmedium, $plarge);
             
             if($result = 1)
             {
-                $updateStatus = $fetchMenu->fetchById($id);
+                $updateStatus = $menu->fetchById($id);
                 
             }
     
@@ -53,14 +53,14 @@ class Backoffice extends Controller
         //DELETE an item
         if(isset($_GET['delete']))
         { 
-            $delStatus = $fetchMenu->deleteItem($_GET['delete']);
+            $delStatus = $menu->deleteItem($_GET['delete']);
         }      
           
         //fetch All items from menu DB
-        $menuResult = $fetchMenu->fetchMenuItems();
+        $menuResult = $menu->fetchMenuItems();
         
         //fetch only 'section' field from menu in DB
-        $sectionResult = $fetchMenu->fetchSection();
+        $sectionResult = $menu->fetchSection();
         
         //output results to view
         $this->view('backoffice', [  
@@ -76,30 +76,29 @@ class Backoffice extends Controller
     }
 
    // add new item to DB
-   protected function add()
+   private function add()
    {
  
-             $postArr = $_POST['add'];
+             $addArr = $_POST['add'];
 
-             $newSect = $postArr["'newSect'"];
-             $selectSect = $postArr["'selectSect'"];
-             $number = $postArr["'num'"];
-             $desc = $postArr["'desc'"];
-             $pmedium = $postArr["'prcm'"];
-             $plarge = $postArr["'prcl'"];
+             $newSect = $addArr["'newSect'"];
+             $selectSect = $addArr["'selectSect'"];
+             $number = $addArr["'num'"];
+             $desc = $addArr["'desc'"];
+             $pmedium = $addArr["'prcm'"];
+             $plarge = $addArr["'prcl'"];
              
              $section = '';
              $addNewStatus = [];
              
              //check validation status
-             $addStatus = $this->validate($newSect, $selectSect, $number, $desc, $pmedium, $plarge);    
+             $validate = $this->validate($newSect, $selectSect, $number, $desc, $pmedium, $plarge);    
              
              // if contains errors
-             if(!empty($addStatus)){ 
+             if(!empty($validate)){ 
                  
-                 $addNewStatus['errMsg'] = $addStatus; //send error msg
-                 exit();
-       
+                 $addNewStatus['errMsg'] = $validate; //send error msg
+                 
              }else{    
              //add to DB and get last inserted
                  
@@ -111,20 +110,14 @@ class Backoffice extends Controller
                  }
                  
                  //add item to DB and fetch last inserted
-                 $addNewStatus['lastInsert'] = $this->model('menu')->addNew($section,$number,$desc,$pmedium,$plarge);              
+                 $addNewStatus['lastInsert'] = $this->model('menu')->addNew($section, $number, $desc, $pmedium, $plarge);              
              }
              
              return $addNewStatus;
 
    }
    
-   
-   public function updateItem()
-   {
-       
-       
-   }
-   
+  
    public function validate($newSect, $selectSect, $number, $desc, $pmedium, $plarge)
    {
       
