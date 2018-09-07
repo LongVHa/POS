@@ -25,8 +25,7 @@ class Login extends Controller
                 exit();
                
             }else{
-                
-                
+                             
                 //check if user exists
                 $result = $this->model('user')->checkUserExists($uid);
 
@@ -51,7 +50,6 @@ class Login extends Controller
         $this->getView('index', '', 'Red');
     }
     
-
     public function checkPwd($uid, $pwd){
         
         //get hashed password from DB
@@ -77,19 +75,16 @@ class Login extends Controller
       
             $this->getView('index', '', '');
                 
-        }
-        
+        }       
     }
     
     protected function getView($view, $msg, $msgColor)
     {
-                $this->view($view, [
-                                        'loginMsg' => $msg,
-                                        'msgColor' => 'msgColor'. $msgColor
-                                      ]
-                );
+            $this->view($view, [
+                                    'loginMsg' => $msg,
+                                    'msgColor' => 'msgColor'. $msgColor
+                                  ]
+            );
     } 
-    
-    
 
 }
