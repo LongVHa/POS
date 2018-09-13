@@ -1,0 +1,7 @@
+@function msgColor($color-name){
+    @return map-get($msg-color, $color-name);
+}
+
+@function bgColor($color){
+    @return map-get($bg-color, $color);    
+}

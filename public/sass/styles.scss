@@ -1,0 +1,32 @@
+//abstracts
+@import "abstracts/_functions.scss", 
+        "abstracts/_mixins.scss", 
+        "abstracts/variables";
+
+//base
+@import "base/animations", 
+        "base/base";
+
+
+//components
+@import "components/buttons",
+        "components/grid";
+
+//layout
+@import "layout/header",
+        "layout/nav",
+        "layout/main",
+        "layout/footer";
+      
+//pages
+@import "pages/backoffice",
+        "pages/home",
+        "pages/signup",
+        "pages/ticket";
+
+
+
+
+
+
+

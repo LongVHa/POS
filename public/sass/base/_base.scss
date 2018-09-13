@@ -1,0 +1,42 @@
+*,
+*::after,
+*::before{
+    margin:0;
+    padding:0;
+    box-sizing:inherit;
+}
+
+html{
+    font-size:62.5%;
+}
+
+body{
+    font-family: "lato", sans-serif;
+    font-weight:400;
+    line-height:1.7;
+    padding:3rem;
+    background: bgColor(primary)!important;
+    box-sizing: border-box;
+    font-size:2rem;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #cccccc;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+
+h2 {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  padding: 20px 0;
+}

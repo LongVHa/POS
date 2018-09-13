@@ -1,0 +1,53 @@
+/*add form*/
+
+#add-wrapper{
+    background: bgColor(primary-light);
+    padding:40px;
+    
+    h2, label{
+        font-weight:bold;
+        color:#999;
+    }
+    
+    label{
+        margin-right:10px;
+    }
+    
+    input{
+        color:#777;
+        border:1px solid #eee;
+        padding:2px 10px;
+        margin:5px 0px;
+    }
+    
+    #add-form{
+        width:50%;
+        margin:0 auto;
+            
+            @include tablet{
+                width:100%;
+            }  
+    }
+    
+}
+
+.msgColorRed {
+    @include msgStruct;
+    color: msgColor(red);
+}
+
+.msgColorGreen {
+    @include msgStruct;
+    color: msgColor(green);
+}
+
+.msgColorOrange {
+    @include msgStruct;
+    color: msgColor(orange);
+}
+
+.menu-row {
+  padding: 5px;
+  background: #fff;
+  margin: 5px 0;
+}

@@ -1,0 +1,15 @@
+$msg-color:(
+    green: green,
+    orange: orange,
+    red: red
+);
+
+$bg-color:(
+    primary: #eee,
+    primary-light: lighten(#eee, 40%),
+    primary-dark: darken(#eee, 40%)
+    
+);
+
+
+$tabletMax: 800px;

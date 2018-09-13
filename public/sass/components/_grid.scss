@@ -1,0 +1,15 @@
+
+#grid{
+    display: none;
+}
+
+#grid li{
+    padding:20px;
+    list-style:none;
+        
+    @include grid(5, 0.5%);
+    
+    img{
+        width:100%
+    }
+}

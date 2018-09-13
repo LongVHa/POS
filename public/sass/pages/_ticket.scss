@@ -1,0 +1,56 @@
+
+#tkt-wrapper {
+    
+  position: relative;
+
+    #tkt-btn-container {
+      width: 70%;
+      position: absolute;
+      left: 0;
+    }
+
+    #sect-item-container {
+      width: 86%;
+      position: absolute;
+      right: 0;
+    }
+
+    #tkt-roll-container {
+      position: absolute;
+      right: 0;
+      width: 59%;
+      padding: 10px;
+    }
+
+    .tkt-button {
+      display: block;
+      width: 25%;
+      border: 1px solid #aaa;
+      margin: 2px 0;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      background: #aaa;
+      
+        //max width 990px
+        @include mediaQ(990px){
+               width:30%;
+        }
+      
+    }
+
+    .menu-item-btn {
+      padding: 20px;
+      display: block;
+      margin: 2px;
+      background: bg-color(primary);
+      width: 30%;
+      height: 80px;
+      
+      &:hover{
+          background: bg-color(primary-lighten);
+      }
+      
+    }
+    
+}

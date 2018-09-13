@@ -1,0 +1,47 @@
+@mixin tablet{
+    @media(min-width: #{$tabletMax}){
+        @content;
+    }
+}
+
+@mixin msgStruct{
+  width: 25%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+@mixin grid($cols, $margin){
+    float:left;
+    margin-right:$margin;
+    margin-bottom:$margin;
+    
+    /*e.g. 5 cols */
+    /*minus 1 cols for margin allocations*/
+    /*Then 80% to divide for 5 cols = 16*/
+    
+    width: ((100% - (($cols - 1) * $margin)) / $cols);       
+    
+     /*last child on each row*/
+    &:nth-child(#{$cols}n){
+        margin-right: 0;
+    }
+    
+}
+
+//media query template
+@mixin mediaQ($arg...){
+    
+    @if length($arg)== 1{
+        @media screen and (max-width: nth($arg, 1)){
+            @content;//content of calling instance
+        }
+    }
+    
+    // add arg min width
+    @if length($arg)==2{
+        @media screen and (max-width: nth($arg, 1)) and (min-wdith: nth($arg, 2)){
+           @content; 
+        } 
+    }
+   
+}
