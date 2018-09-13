@@ -12,9 +12,9 @@
 </div>
 <br>
 <hr>
-<div class="container">
-    <h2>Add</h2>
-    <div class="col-lg-12">
+<div class="container" id="add-wrapper">
+    <h2>Add a new item</h2>
+    <div id="add-form">
           
         <?php 
         
